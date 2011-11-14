@@ -1,0 +1,34 @@
+== How to control GUI? ==
+
+GUI is til experimental and unfinished, but there are some keys you
+can use:
+
+- SPACE		one step
+- P			toggle between auto-step and manual stepping
+- Q			stop simulation and exit windows
+
+== What should containt configuration file? ==
+
+Config file should contain these constants. For core functions of simulator:
+left-lane-speed				integer
+center-lane-speed			integer
+right-lane-speed			integer
+
+left-lane-gap				integer
+center-lane-gap				integer
+right-lane-gap				integer
+
+agent-initial-position		integer
+agent-speed					integer
+
+And for GUI:
+
+auto-step					boolean
+auto-step-delay 			integer (in ms)
+
+Look into example config file in tests/simulator.conf for example and more
+info about every constant.
+
+== What is gap, car, agent, or lane? ==
+
+Look at docs/gui-terminology.png.
