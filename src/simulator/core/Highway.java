@@ -150,17 +150,17 @@ public class Highway {
 		
 		// Get gap and speed of cars in given lane.
 		int gap = this.gaps.get(lane);
-		//int speed = this.speeds.get(lane);
+		int speed = this.speeds.get(lane);
 		
 		// Get number of nearest car behind the agent
-		int carBehind = (int)(position / gap);
-		int carBehindPosition = carBehind * gap;
+		int carBehind = (int)((position - this.timeStep * speed) / gap);
+		int carBehindPosition = carBehind * gap + this.timeStep * speed;
 
 		if(carBehindPosition == position && carSequence == 1)
 			return 0;
 		// Get car's position
 		int carPosition = carBehindPosition + gap * carSequence;
-		return carPosition - position;
+		return carPosition - position ;
 	}
 
 	/**

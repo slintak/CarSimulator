@@ -2,8 +2,10 @@ package simulator.agents;
 
 import static org.junit.Assert.*;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.junit.Test;
 
@@ -17,7 +19,11 @@ public class ShoulderAgentTest {
 	@Test
 	public void testRun() throws NotLaneException, WrongActionException,
 			OnCrashException, FileNotFoundException, IOException {
-		Simulator s = new Simulator("tests/simulator.conf", new ShoulderAgent());
+		
+		Properties prop = new Properties();
+		prop.load(new FileInputStream("tests/simulator.conf"));
+		
+		Simulator s = new Simulator(prop, new ShoulderAgent());
 		
 		for(int i = 0; i < 3; i++)
 			s.run();
@@ -28,7 +34,11 @@ public class ShoulderAgentTest {
 	@Test(expected=OnCrashException.class)
 	public void testRunCollide() throws FileNotFoundException, IOException,
 			NotLaneException, WrongActionException, OnCrashException {
-		Simulator s = new Simulator("tests/simulator-slow.conf", new ShoulderAgent());
+		
+		Properties prop = new Properties();
+		prop.load(new FileInputStream("tests/simulator-slow.conf"));
+		
+		Simulator s = new Simulator(prop, new ShoulderAgent());
 		s.run();
 	}
 }

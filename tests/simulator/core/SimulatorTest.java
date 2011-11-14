@@ -1,7 +1,9 @@
 package simulator.core;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.junit.Test;
 
@@ -14,7 +16,12 @@ public class SimulatorTest {
 	@Test(expected=OnCrashException.class)
 	public void testRun() throws NotLaneException, WrongActionException, OnCrashException, FileNotFoundException, IOException {
 		TestAgent ta = new TestAgent();
-		Simulator s = new Simulator("tests/simulator.conf", ta);
+		
+		// Load configuration from file.
+		Properties prop = new Properties();
+		prop.load(new FileInputStream("tests/simulator.conf"));
+
+		Simulator s = new Simulator(prop, ta);
 		// Agent should crash onto other car in one step.
 		s.run();
 	}

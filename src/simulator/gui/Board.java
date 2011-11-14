@@ -12,9 +12,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
+import simulator.agents.ShoulderAgent;
 import simulator.core.Simulator;
 import simulator.exceptions.NotLaneException;
 import simulator.exceptions.OnCrashException;
@@ -28,12 +34,35 @@ import simulator.exceptions.WrongActionException;
  *
  */
 public class Board extends JPanel implements ActionListener {
-	public Board(Simulator s) {
+	public Board(String configuration) throws FileNotFoundException, IOException {
+		// Create instance of agent
+		// TODO: Load name of agent from config file
+		ShoulderAgent a = new ShoulderAgent();
+		
+		// Load configuration from file.
+		Properties prop = new Properties();
+		prop.load(new FileInputStream(configuration));
+
+		this.simulator  = new Simulator(prop, a);
+		
+		// Events from keyboard
 		addKeyListener(new TAdapter());
         setFocusable(true);
         setDoubleBuffered(true);
         
-        this.simulator = s;
+        
+        ActionListener taskPerformer = new ActionListener() {
+        	public void actionPerformed(ActionEvent evt) {
+        		run();
+        	}
+        };
+        
+        boolean autoStep = Boolean.parseBoolean(prop.getProperty("auto-step"));
+        int autoStepDelay = new Integer(prop.getProperty("auto-step-delay"));
+        if(autoStep) {
+        	this.timer = new Timer(autoStepDelay, taskPerformer);
+        	this.timer.start();
+        }
 	}
 	
 	public void paint(Graphics g)
@@ -69,13 +98,18 @@ public class Board extends JPanel implements ActionListener {
       for(int i = -3; i < 4; i++) {
     	  if(i == 0) continue;
     	  for(int j = -1; j <= 1; j++) {
+    		// TODO: Ugly code, rewrite.
 		    car = this.simulator.getHighway().getCarPosition(j, pos, i);
-		    RoundRectangle2D rc = new RoundRectangle2D.Double(w/2+w/5*j-10, h/2-car*8+20, 18, 20, 8, 8);
+		    double x = w/2+w/5*j-10;
+		    double y = h/2-car*8+20;
+		    RoundRectangle2D rc = new RoundRectangle2D.Double(x, y, 18, 20, 8, 8);
+		    g2.drawString(new Integer(car).toString(), (float)x+2, (float)y+14);
 	        g2.draw(rc);
     	  }
 	  }
-      RoundRectangle2D ra = new RoundRectangle2D.Double(w/2+w/5*lane-10, h/2, 18, 20, 8, 8);
       
+      RoundRectangle2D ra = new RoundRectangle2D.Double(w/2+w/5*lane-10, h/2, 18, 20, 8, 8);
+      g2.fill(ra);
       g2.draw(ra);
     }
 	
@@ -99,8 +133,8 @@ public class Board extends JPanel implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub	
+	public void actionPerformed(ActionEvent evnt) {
+		
 	}
 
 	private class TAdapter extends KeyAdapter {
@@ -108,10 +142,20 @@ public class Board extends JPanel implements ActionListener {
         public void keyReleased(KeyEvent e) {
         	int key = e.getKeyCode();
         	
-        	if (key == KeyEvent.VK_Q) {
+        	// Quit application
+        	if(key == KeyEvent.VK_Q) {
         		System.exit(0);
             }
         	
+        	// Toggle between auto step and manual stepping
+        	if(key == KeyEvent.VK_P) {
+        		if(timer.isRunning())
+        			timer.stop();
+        		else
+        			timer.start();
+        	}
+        	
+        	// Run one step.
         	if(key == KeyEvent.VK_SPACE) {
         		run();
         	}
@@ -122,5 +166,6 @@ public class Board extends JPanel implements ActionListener {
 	 * Serialization Version UID.
 	 */
 	private static final long serialVersionUID = -1933730511007693399L;
+	private Timer timer;
 	private Simulator simulator = null;
 }

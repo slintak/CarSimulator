@@ -1,6 +1,5 @@
 package simulator.core;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
@@ -33,17 +32,13 @@ public class Simulator {
 	/**
 	 * Create new instance of Simulator class.
 	 * 
-	 * @param conf Path to configuration file.
+	 * @param prop Instance of Properties.
 	 * @param agent Instance of agent to simulate.
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public Simulator(String conf, BaseAgent agent) throws FileNotFoundException, IOException {
+	public Simulator(Properties prop, BaseAgent agent) {
 		this.agent = agent;
-		
-		// Load configuration from file.
-		Properties prop = new Properties();
-		prop.load(new FileInputStream(conf));
 		
 		this.highway = new Highway();
 		// Set cars in left lane

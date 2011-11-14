@@ -5,13 +5,16 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import simulator.agents.ShoulderAgent;
-import simulator.core.Simulator;
-
 public class Window extends JFrame {
 
-	public Window(Simulator s) {
-		add(new Board(s));
+	public Window(String s) {
+		try {
+			add(new Board(s));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         setTitle("Highway Simulator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 600);
@@ -24,19 +27,8 @@ public class Window extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ShoulderAgent a = new ShoulderAgent();
-		Simulator s = null;
-		try {
-			s = new Simulator("tests/simulator.conf", a);
-		} catch (FileNotFoundException e) {
-			System.out.println("Configuration file not found!");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Problem when reading configuration file!");
-			e.printStackTrace();
-		}
-		
-		new Window(s);
+		String conf = "tests/simulator-gui.conf";
+		new Window(conf);
 	}
 
 	/**
