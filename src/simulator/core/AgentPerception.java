@@ -32,6 +32,23 @@ public class AgentPerception {
 		this.speed = speed;
 	}
 
+	public void setHint(int hint) {
+		this.directionHint = hint;
+	}
+
+	/**
+	 * <p>Returns suggestion of direction from simulator. This
+	 * suggestion can be <code>LEFT</code>, <code>RIGHT</code>,
+	 * <code>NONE</code> or <code>CURRENT</code> from
+	 * <code>AgentActions</code>.</p>
+	 * <p>Agent can or cannot act based on this hint.</p>
+	 * 
+	 * @return Direction hint from simulator/user/environment.
+	 */
+	public int getHint() {
+		return this.directionHint;
+	}
+
 	public void setCars(Map<Integer, Integer> cars) {
 		this.cars = cars;
 	}
@@ -47,4 +64,17 @@ public class AgentPerception {
 	private int lane;
 	private int position;
 	private int speed;
+	
+	/**
+	 * <p>Sometimes, user or simulator can give suggestion what
+	 * directions should agent ride.</p>
+	 * <p><code>directionHint</code> can be:
+	 * <ul>
+	 * <li>AgentActions.LEFT</li>
+	 * <li>AgentActions.CURRENT</li>
+	 * <li>AgentActions.RIGHT</li>
+	 * <li>AgentActions.NONE</li>
+	 * </ul></p> 
+	 */
+	private int directionHint = AgentActions.NONE;
 }

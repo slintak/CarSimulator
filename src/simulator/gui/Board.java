@@ -20,7 +20,9 @@ import java.util.Properties;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import simulator.agents.ShoulderAgent;
+import simulator.agents.BaseAgent;
+import simulator.agents.HintAgent;
+import simulator.core.AgentActions;
 import simulator.core.Simulator;
 import simulator.exceptions.NotLaneException;
 import simulator.exceptions.OnCrashException;
@@ -35,13 +37,13 @@ import simulator.exceptions.WrongActionException;
  */
 public class Board extends JPanel implements ActionListener {
 	public Board(String configuration) throws FileNotFoundException, IOException {
-		// Create instance of agent
-		// TODO: Load name of agent from config file
-		ShoulderAgent a = new ShoulderAgent();
-		
 		// Load configuration from file.
 		Properties prop = new Properties();
 		prop.load(new FileInputStream(configuration));
+		
+		// Create instance of agent
+		String agentString = prop.getProperty("agent");
+		BaseAgent a = this.loadAgent(agentString);
 
 		this.simulator  = new Simulator(prop, a);
 		
@@ -101,7 +103,7 @@ public class Board extends JPanel implements ActionListener {
     		// TODO: Ugly code, rewrite.
 		    car = this.simulator.getHighway().getCarPosition(j, pos, i);
 		    double x = w/2+w/5*j-10;
-		    double y = h/2-car*8+20;
+		    double y = h/2-car*20;
 		    RoundRectangle2D rc = new RoundRectangle2D.Double(x, y, 18, 20, 8, 8);
 		    g2.drawString(new Integer(car).toString(), (float)x+2, (float)y+14);
 	        g2.draw(rc);
@@ -122,20 +124,46 @@ public class Board extends JPanel implements ActionListener {
 			// Run one step in simulator.
 			this.simulator.run();
 		} catch (NotLaneException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Agent went off the road!");
+			System.exit(1);
 		} catch (WrongActionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Agent return wrong action!");
+			System.exit(1);
 		} catch (OnCrashException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Agent crashed!");
+			System.exit(1);
 		}
 		
 		// Now we repaint all canvas.
 		repaint();
+		this.simulator.getAgentPerception().setHint(AgentActions.NONE);
 	}
 	
+	private BaseAgent loadAgent(String agentString) {
+		// TODO: Rewrite this ClassLoader stuff.
+		ClassLoader classLoader = BaseAgent.class.getClassLoader();
+		Class aClass = null;
+		try {
+	        aClass = classLoader.loadClass("simulator.agents." + agentString);
+	    } catch (ClassNotFoundException e) {
+	        System.out.println("Givent agent not found! Agent's name was: " + agentString);
+	        System.exit(1);
+	    }
+	    
+	    BaseAgent a = null;
+		try {
+			a = (BaseAgent)aClass.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return a;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent evnt) {
 		
@@ -146,22 +174,32 @@ public class Board extends JPanel implements ActionListener {
         public void keyReleased(KeyEvent e) {
         	int key = e.getKeyCode();
         	
+        	switch(key) {
         	// Quit application
-        	if(key == KeyEvent.VK_Q) {
+        	case KeyEvent.VK_Q:
         		System.exit(0);
-            }
-        	
+        		break;
+        		
         	// Toggle between auto step and manual stepping
-        	if(key == KeyEvent.VK_P) {
+        	case KeyEvent.VK_P:
         		if(timer.isRunning())
         			timer.stop();
         		else
         			timer.start();
-        	}
-        	
+        		break;
+        		
         	// Run one step.
-        	if(key == KeyEvent.VK_SPACE) {
+        	case KeyEvent.VK_SPACE:
         		run();
+        		break;
+        	
+        	// Give some hint to agent
+        	case KeyEvent.VK_RIGHT:
+        		simulator.getAgentPerception().setHint(AgentActions.RIGHT);
+        		break;
+        	case KeyEvent.VK_LEFT:
+        		simulator.getAgentPerception().setHint(AgentActions.LEFT);
+        		break;
         	}
         }
     }

@@ -29,10 +29,12 @@ public class AgentPerceptionTest {
 		ap.setLane(Highway.CENTER_LANE);
 		ap.setPosition(100);
 		ap.setSpeed(10);
+		ap.setHint(AgentActions.LEFT);
 		
 		assertEquals(Highway.CENTER_LANE, ap.getLane());
 		assertEquals(100, ap.getPosition());
 		assertEquals(10, ap.getSpeed());
+		assertEquals(AgentActions.LEFT, ap.getHint());
 	}
 	
 	@Test

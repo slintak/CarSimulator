@@ -82,7 +82,7 @@ public class Simulator {
 	public void run() throws NotLaneException, WrongActionException, OnCrashException {
 		// Run agent and get his actions.
 		AgentActions aa = this.agent.run(this.agentPerception);
-		if(aa == null)
+		if(aa == null || aa.getDirection() == AgentActions.NONE)
 			throw new WrongActionException();
 		
 		// Based on agent's action and current lane get new lane.
