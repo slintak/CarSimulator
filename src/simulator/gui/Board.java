@@ -111,6 +111,10 @@ public class Board extends JPanel implements ActionListener {
       RoundRectangle2D ra = new RoundRectangle2D.Double(w/2+w/5*lane-10, h/2, 18, 20, 8, 8);
       g2.fill(ra);
       g2.draw(ra);
+      
+      String ts = "TimeStep: " + this.simulator.getTimeStep()
+      			+ " CarPos: " + this.simulator.getAgentPerception().getPosition();
+      g2.drawString(ts, (float)2.0, (float)15.0);
     }
 	
 	private void run() {
