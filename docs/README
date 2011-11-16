@@ -6,6 +6,10 @@ can use:
 - SPACE		one step
 - P			toggle between auto-step and manual stepping
 - Q			stop simulation and exit windows
+- Left/right arrow
+            when user press one of this arrows, the hint is
+            saved in agent's perception and agent can read
+            this hint (and act based on it).
 
 == What should containt configuration file? ==
 
@@ -20,6 +24,7 @@ right-lane-gap				integer
 
 agent-initial-position		integer
 agent-speed					integer
+agent						string
 
 And for GUI:
 
