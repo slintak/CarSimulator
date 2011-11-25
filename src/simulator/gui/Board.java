@@ -60,10 +60,9 @@ public class Board extends JPanel implements ActionListener {
         
         boolean autoStep = Boolean.parseBoolean(prop.getProperty("auto-step"));
         int autoStepDelay = new Integer(prop.getProperty("auto-step-delay"));
-        if(autoStep) {
-        	this.timer = new Timer(autoStepDelay, taskPerformer);
+        this.timer = new Timer(autoStepDelay, taskPerformer);
+        if(autoStep)
         	this.timer.start();
-        }
 	}
 	
 	public void paint(Graphics g)
@@ -176,6 +175,7 @@ public class Board extends JPanel implements ActionListener {
         	switch(key) {
         	// Quit application
         	case KeyEvent.VK_Q:
+        		simulator.stop();
         		System.exit(0);
         		break;
         		

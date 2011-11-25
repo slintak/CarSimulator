@@ -40,4 +40,10 @@ public class ShoulderAgent extends BaseAgent {
 	public void onCrash(AgentPerception ap) {
 		System.out.println("Oops! I crashed.");
 	}
+
+	@Override
+	public void onExit() {
+		// TODO Auto-generated method stub
+		
+	}
 }

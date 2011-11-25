@@ -25,4 +25,10 @@ public class TestAgent extends BaseAgent {
 		// Do nothing
 	}
 
+	@Override
+	public void onExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

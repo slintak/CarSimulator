@@ -98,10 +98,18 @@ public class Simulator {
 		// Check cars in front of agent. Is there a crash?
 		if(newNearestCar != nearestCar) {
 			this.agent.onCrash(this.agentPerception);
+			this.stop();
 			throw new OnCrashException();
 		}
 		
 		this.timeStep++;
+	}
+
+	/**
+	 * <p>This method has to be called before the end of simulation.</p>
+	 */
+	public void stop() {
+		this.agent.onExit();
 	}
 
 	/**

@@ -39,4 +39,11 @@ public abstract class BaseAgent {
 	 * @param ap Perception of agent.
 	 */
 	public abstract void onCrash(AgentPerception ap);
+	
+	/**
+	 * <p>This method is called only once -- at the end of simulation.
+	 * Regardless the result (suscessful or crash) this method is called
+	 * at the end.</p>
+	 */
+	public abstract void onExit();
 }
