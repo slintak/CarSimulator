@@ -12,6 +12,7 @@ import simulator.exceptions.WrongActionException;
  * <li>AgentActions.RIGHT -- Right side of agent.</li>
  * <li>AgentActions.NONE -- No action.</li>
  * </ul></p>
+ * 
  * @author Vlastimil Slintak, xslint01@stud.feec.vutbr.cz
  *
  */

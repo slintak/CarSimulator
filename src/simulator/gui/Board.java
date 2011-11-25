@@ -140,6 +140,7 @@ public class Board extends JPanel implements ActionListener {
 	private BaseAgent loadAgent(String agentString) {
 		// TODO: Rewrite this ClassLoader stuff.
 		ClassLoader classLoader = BaseAgent.class.getClassLoader();
+		@SuppressWarnings("rawtypes")
 		Class aClass = null;
 		try {
 	        aClass = classLoader.loadClass("simulator.agents." + agentString);

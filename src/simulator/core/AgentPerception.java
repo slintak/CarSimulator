@@ -4,6 +4,14 @@ import java.util.Map;
 
 import simulator.exceptions.NotLaneException;
 
+/**
+ * <p>All agent's perception are stored in this class. In every step,
+ * simulator updates this perception and call agent's <code>BaseAgent.run()</code>.
+ * The only parameter of this method is <code>AgentPerception</code><p>
+ * 
+ * @author Vlastimil Slintak, xslint01@stud.feec.vutbr.cz
+ *
+ */
 public class AgentPerception {
 	
 	public AgentPerception() {	}

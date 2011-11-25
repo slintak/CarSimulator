@@ -5,6 +5,12 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+/**
+ * Main window of simulator.
+ * 
+ * @author Vlastimil Slintak, xslint01@stud.feec.vutbr.cz
+ *
+ */
 public class Window extends JFrame {
 
 	public Window(String s) {
