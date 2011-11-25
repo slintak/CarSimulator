@@ -7,8 +7,8 @@ import simulator.exceptions.NotLaneException;
 import simulator.exceptions.WrongActionException;
 
 /**
- * This simple agent moves to left shoulder as soon as possible
- * and remains there until the end. 
+ * <p>This simple agent moves to left shoulder as soon as possible
+ * and remains there until the end.</p>
  * 
  * @author Vlastimil Slintak, xslint01@stud.feec.vutbr.cz
  *
@@ -17,8 +17,9 @@ public class ShoulderAgent extends BaseAgent {
 
 	@Override
 	public AgentActions run(AgentPerception ap) throws WrongActionException {
-		// Current lane.
+		// What lane is on the left?
 		int leftLane = Highway.getLane(ap.getLane(), AgentActions.LEFT);
+		
 		// Are we in shoulder?
 		if(ap.getLane() == Highway.LEFT_SHOULDER) {
 			System.out.println("On left shoulder. All ok.");

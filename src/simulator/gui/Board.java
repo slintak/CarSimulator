@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import simulator.agents.BaseAgent;
-import simulator.agents.HintAgent;
 import simulator.core.AgentActions;
 import simulator.core.Simulator;
 import simulator.exceptions.NotLaneException;

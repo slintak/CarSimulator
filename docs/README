@@ -1,19 +1,21 @@
 == How to control GUI? ==
 
-GUI is til experimental and unfinished, but there are some keys you
+GUI is stil experimental and unfinished, but there are some keys you
 can use:
 
 - SPACE		one step
 - P			toggle between auto-step and manual stepping
 - Q			stop simulation and exit windows
 - Left/right arrow
-            when user press one of this arrows, the hint is
+            when user press one of these arrows, the hint is
             saved in agent's perception and agent can read
             this hint (and act based on it).
 
-== What should containt configuration file? ==
+== What should be in configuration file? ==
 
-Config file should contain these constants. For core functions of simulator:
+Config file should contain these constants. For core
+functions of simulator:
+
 left-lane-speed				integer
 center-lane-speed			integer
 right-lane-speed			integer
@@ -37,3 +39,12 @@ info about every constant.
 == What is gap, car, agent, or lane? ==
 
 Look at docs/gui-terminology.png.
+
+== How can I write own agent? ==
+
+In package simulator.agents are several testing and example agents. Look
+at the code, it is commented and self-explanatory.
+
+Every agent has to be descendant of BaseAgent class and has to override
+two methods -- run() and onCrash(). What these methods are for is explained
+in BaseAgent class.

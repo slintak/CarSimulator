@@ -13,7 +13,7 @@ import simulator.exceptions.WrongActionException;
  * <p>First method, <code>run()</code> is called by simulator in every step.
  * First and only parameter if this method is AgentPerception and contains
  * all information about agent's neighborhood.</p>
- * <p>Second methos, <code>onCrash()</code> is called once by simulator, when agent make
+ * <p>Second method, <code>onCrash()</code> is called once by simulator, when agent make
  * mistake and crash into other car on highway. This method can do nothing.</p>
  * 
  * @author "Vlastimil Slintak, xslint01@stud.feec.vutbr.cz"
