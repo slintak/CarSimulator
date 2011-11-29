@@ -1,9 +1,14 @@
 package simulator.utils;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
@@ -48,18 +53,10 @@ public class Logger {
 	private String filename;
 	private Gson gson;
 	
-	private PrintWriter fh = null;
+	private PrintWriter fileHandler = null;
 
 	public Logger(String filename) {
-		// If filename already exists, create new
-		// name -- filename-1 or filename-2...
-		int i = 1;
 		this.filename = filename;
-		while(new File(this.filename).exists()) {
-			this.filename = filename + "-" + i;
-			i++;
-		}
-		
 		this.gson = new Gson();
 	}
 
@@ -71,52 +68,48 @@ public class Logger {
 	 * @throws IOException Thrown if log file does not exist or cannot be created.
 	 */
 	public void log(AgentPerception perception, AgentActions action) throws IOException {
-		if(fh == null) {
+		if(fileHandler == null) {
+			this.makeFilename(this.filename);
 			FileWriter outFile = new FileWriter(this.filename);
-			this.fh = new PrintWriter(outFile);
+			this.fileHandler = new PrintWriter(outFile);
 		}
 		
 		// Write objects into file
-		this.fh.println(this.gson.toJson(new PerceptionActionContainer(perception, action)));
+		this.fileHandler.println(this.gson.toJson(new PerceptionActionContainer(perception, action)));
 	}
 	
+	public ArrayList<PerceptionActionContainer> load() throws IOException {
+		  FileInputStream fstream = new FileInputStream(this.filename);
+		  DataInputStream in = new DataInputStream(fstream);
+		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		  
+		  ArrayList<PerceptionActionContainer> log = new ArrayList<PerceptionActionContainer>();
+		  String strLine;
+		  Gson gson = new Gson();
+		  for(int i = 0; (strLine = br.readLine()) != null; i++) {
+			  log.add(gson.fromJson(strLine, PerceptionActionContainer.class));
+		  }
+		  
+		return log;
+		
+	}
+
 	/**
 	 * This method has to be called in the end!
 	 */
 	public void close() {
-		this.fh.close();
+		this.fileHandler.close();
+		this.fileHandler = null;
 	}
-}
-
-/**
- * Just simple container for AgentPerception and AgentActions
- * for serialization purposes.
- * 
- * @author Vlastimil Slintak, xslint01@stud.feec.vutbr.cz
- *
- */
-class PerceptionActionContainer {
-	private AgentPerception perception;
-	private AgentActions action;
 	
-	public PerceptionActionContainer(AgentPerception ap, AgentActions ac) {
-		this.perception = ap;
-		this.action = ac;
-	}
-
-	public AgentPerception getPerception() {
-		return perception;
-	}
-
-	public void setPerception(AgentPerception perception) {
-		this.perception = perception;
-	}
-
-	public AgentActions getAction() {
-		return action;
-	}
-
-	public void setAction(AgentActions action) {
-		this.action = action;
+	private void makeFilename(String filename) {
+		// If filename already exists, create new
+		// name -- filename-1 or filename-2...
+		int i = 1;
+		this.filename = filename;
+		while(new File(this.filename).exists()) {
+			this.filename = filename + "-" + i;
+			i++;
+		}
 	}
 }

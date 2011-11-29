@@ -28,8 +28,8 @@ import simulator.exceptions.OnCrashException;
 import simulator.exceptions.WrongActionException;
 
 /**
- * This class is proof of concept. It is temporary and will be
- * rewritten.
+ * <p>This class is proof of concept. It is dirty hack and has to be
+ * rewritten!</p>
  * 
  * @author Vlastimil Slintak, xslint01@stud.feec.vutbr.cz
  *

@@ -46,5 +46,5 @@ In package simulator.agents are several testing and example agents. Look
 at the code, it is commented and self-explanatory.
 
 Every agent has to be descendant of BaseAgent class and has to override
-two methods -- run() and onCrash(). What these methods are for is explained
-in BaseAgent class.
+three methods -- run(), onCrash() and onExit(). What these methods are
+for is explained in BaseAgent class.

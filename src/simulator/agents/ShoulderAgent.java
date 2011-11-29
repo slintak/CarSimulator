@@ -17,21 +17,24 @@ public class ShoulderAgent extends BaseAgent {
 
 	@Override
 	public AgentActions run(AgentPerception ap) throws WrongActionException {
-		// What lane is on the left?
+		// What lane is on our left?
 		int leftLane = Highway.getLane(ap.getLane(), AgentActions.LEFT);
 		
 		// Are we in shoulder?
 		if(ap.getLane() == Highway.LEFT_SHOULDER) {
 			System.out.println("On left shoulder. All ok.");
+			// Stay in shoulder forever.
 			return new AgentActions(AgentActions.CURRENT);
 		}
 		
-		int nearestCarLeft;
+		// How far is nearest car in left lane?
+		// Just for example, we do not use this information.
 		try {
-			nearestCarLeft = ap.getNearestCar(leftLane);
+			int nearestCarLeft = ap.getNearestCar(leftLane);
 			System.out.println("Nearest car on the left is: " + nearestCarLeft);
 		} catch (NotLaneException e) {}		
 		
+		// Steer to left.
 		System.out.println("Steering left.");
 		return new AgentActions(AgentActions.LEFT);
 	}
@@ -43,7 +46,6 @@ public class ShoulderAgent extends BaseAgent {
 
 	@Override
 	public void onExit() {
-		// TODO Auto-generated method stub
-		
+		// Do nothing.
 	}
 }

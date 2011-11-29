@@ -1,1 +1,7 @@
 Simple step-based simulator of cars on highway.
+
+For agents examples, look into simulator.agents. There are
+plenty of example agents.
+
+Main function is in simulator.gui.Window and it creates GUI of
+simulator and run agent.
